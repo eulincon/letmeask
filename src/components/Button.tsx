@@ -2,7 +2,6 @@ import { ButtonHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 const ButtonStyled = styled.button`
-  margin-top: 64px;
   height: 50px;
   border-radius: 8px;
   font-weight: 500;
@@ -33,8 +32,8 @@ const ButtonStyled = styled.button`
   }
 `
 
-export default function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
+function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   return <ButtonStyled {...props} />
 }
 
-// export default Button;
+export default Button
