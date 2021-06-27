@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import LogoImg from '../assets/images/logo.svg'
 import Button from '../components/Button'
+import Question from '../components/Question'
 import RoomCode from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
 import { database } from '../services/firebase'
@@ -103,6 +104,10 @@ const RoomStyled = styled.div`
         }
       }
     }
+
+    .question-list {
+      margin-top: 32px;
+    }
   }
 `
 
@@ -119,7 +124,7 @@ type FirebaseQuestions = Record<
   }
 >
 
-type Question = {
+type QuestionType = {
   id: string
   author: {
     name: string
@@ -138,7 +143,7 @@ export default function Room() {
   const { user } = useAuth()
   const params = useParams<RoomParams>()
   const [newQuestion, setNewQuestion] = useState('')
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [questions, setQuestions] = useState<QuestionType[]>([])
   const [title, setTitle] = useState('')
 
   const roomId = params.id
@@ -146,7 +151,7 @@ export default function Room() {
   useEffect(() => {
     const roomRef = database.ref(`rooms/${roomId}`)
 
-    roomRef.on('value', room => {
+    roomRef.on('value', (room) => {
       const databaseRoom = room.val()
       const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {}
       const parseQuestions = Object.entries(firebaseQuestions).map(
@@ -206,7 +211,7 @@ export default function Room() {
         <form onSubmit={handleSendQuestion}>
           <textarea
             value={newQuestion}
-            onChange={event => setNewQuestion(event.target.value)}
+            onChange={(event) => setNewQuestion(event.target.value)}
             placeholder="O que você quer perguntar?"
           ></textarea>
           <div className="form-footer">
@@ -226,7 +231,17 @@ export default function Room() {
           </div>
         </form>
 
-        {JSON.stringify(questions)}
+        <div className="question-list">
+          {questions.map((question) => {
+            return (
+              <Question
+                key={question.id}
+                author={question.author}
+                content={question.content}
+              />
+            )
+          })}
+        </div>
       </main>
     </RoomStyled>
   )
