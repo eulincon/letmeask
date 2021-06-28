@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 const QuestionStyled = styled.div`
@@ -33,6 +34,32 @@ const QuestionStyled = styled.div`
         font-size: 14px;
       }
     }
+
+    button {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      transition: filter 0.2s;
+
+      &.like-button {
+        display: flex;
+        align-items: flex-end;
+        color: #737380;
+        gap: 8px;
+
+        &.liked {
+          color: #835afd;
+
+          svg path {
+            stroke: #835afd;
+          }
+        }
+      }
+
+      &:hover {
+        filter: brightness(0.7);
+      }
+    }
   }
 `
 
@@ -42,9 +69,10 @@ type QuestionProps = {
     name: string
     avatar: string
   }
+  children?: ReactNode
 }
 
-export default function Question({ content, author }: QuestionProps) {
+export default function Question({ content, author, children }: QuestionProps) {
   return (
     <QuestionStyled>
       <p>{content}</p>
@@ -53,6 +81,7 @@ export default function Question({ content, author }: QuestionProps) {
           <img src={author.avatar} alt={author.name} />
           <span>{author.name}</span>
         </div>
+        <div>{children}</div>
       </footer>
     </QuestionStyled>
   )

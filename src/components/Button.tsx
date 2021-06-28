@@ -22,6 +22,12 @@ const ButtonStyled = styled.button`
     margin-right: 8px;
   }
 
+  &.outlined {
+    background: #fff;
+    border: 1px solid #835afd;
+    color: #835afd;
+  }
+
   &:not(:disabled):hover {
     filter: brightness(0.9);
   }
@@ -32,8 +38,14 @@ const ButtonStyled = styled.button`
   }
 `
 
-function Button(props: ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <ButtonStyled {...props} />
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  isOutlined?: boolean
+}
+
+function Button({ isOutlined = false, ...props }: ButtonProps) {
+  return (
+    <ButtonStyled className={`${isOutlined ? 'outlined' : ''}`} {...props} />
+  )
 }
 
 export default Button

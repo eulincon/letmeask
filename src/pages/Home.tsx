@@ -160,6 +160,11 @@ export default function Home() {
       return
     }
 
+    if (roomRef.val().endedAt) {
+      alert('Room already closed.')
+      return
+    }
+
     history.push(`/rooms/${roomCode}`)
   }
 
@@ -184,7 +189,7 @@ export default function Home() {
           <form onSubmit={handleJoinRoom}>
             <input
               value={roomCode}
-              onChange={event => setRoomCode(event.target.value)}
+              onChange={(event) => setRoomCode(event.target.value)}
               type="text"
               placeholder="Digite o código da sala"
             />
