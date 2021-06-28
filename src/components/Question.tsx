@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
@@ -7,6 +8,19 @@ const QuestionStyled = styled.div`
   box-shadow: rgba(0, 0, 0, 0.04);
   padding: 24px;
   margin-bottom: 8px;
+
+  &.highlighted {
+    background: #f4f0ff;
+    border: 1px solid #835afd;
+
+    footer .user-info span {
+      color: #29292e;
+    }
+  }
+
+  &.answered {
+    background: #dbdcdd;
+  }
 
   p {
     color: #29292e;
@@ -33,6 +47,11 @@ const QuestionStyled = styled.div`
         color: #737380;
         font-size: 14px;
       }
+    }
+
+    > div {
+      display: flex;
+      gap: 16px;
     }
 
     button {
@@ -70,11 +89,24 @@ type QuestionProps = {
     avatar: string
   }
   children?: ReactNode
+  isAnswered?: boolean
+  isHighLighted?: boolean
 }
 
-export default function Question({ content, author, children }: QuestionProps) {
+export default function Question({
+  isAnswered = false,
+  isHighLighted = false,
+  content,
+  author,
+  children,
+}: QuestionProps) {
   return (
-    <QuestionStyled>
+    <QuestionStyled
+      className={cx(
+        { answered: isAnswered },
+        { highlighted: isHighLighted && !isAnswered }
+      )}
+    >
       <p>{content}</p>
       <footer>
         <div className="user-info">
